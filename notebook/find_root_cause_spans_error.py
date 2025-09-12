@@ -1,14 +1,12 @@
 # 我们用python处理得到root cause的span
 
 import os
-from dotenv import load_dotenv
 
 from aliyun.log import LogClient, GetLogsRequest
 from utils.constants import ERROR_TRACES  # 为一个超参数,表示查询的错误trace数量上限
 from datetime import datetime
 
 # 加载.env文件
-load_dotenv()
 
 class FindRootCauseSpans:
     # 核心修改点：__init__ 的参数
@@ -23,7 +21,7 @@ class FindRootCauseSpans:
         """
         # 1. 直接使用传入的 client
         self.client = client
-        
+
         # 2. 保留其他属性的初始化
         self.project_name = project_name
         self.logstore_name = logstore_name
@@ -34,12 +32,12 @@ class FindRootCauseSpans:
             self.start_time = int(datetime.strptime(start_time, "%Y-%m-%d %H:%M:%S").timestamp())
         else:
             self.start_time = int(start_time)
-            
+
         if isinstance(end_time, str):
             self.end_time = int(datetime.strptime(end_time, "%Y-%m-%d %H:%M:%S").timestamp())
         else:
             self.end_time = int(end_time)
-            
+
         print(f"[FindRootCauseSpans] 初始化完成。")
         print(f"  开始时间: {datetime.fromtimestamp(self.start_time)} (时间戳: {self.start_time})")
         print(f"  结束时间: {datetime.fromtimestamp(self.end_time)} (时间戳: {self.end_time})")
@@ -66,7 +64,7 @@ class FindRootCauseSpans:
             toTime=self.end_time,
             line=ERROR_TRACES
         )
-        
+
         print (self.project_name, self.logstore_name, self.region)
         print (f"[FindRootCauseSpans] 查询时间范围: {datetime.fromtimestamp(self.start_time).strftime('%Y-%m-%d %H:%M:%S')} ~ {datetime.fromtimestamp(self.end_time).strftime('%Y-%m-%d %H:%M:%S')}. 查询条件: {all_spans_query}")
         response = self.client.get_logs(request)
@@ -91,7 +89,7 @@ class FindRootCauseSpans:
             root_cause_span_ids = self.process_one_trace_log(trace_logs)
             # print(f"trace_id: {trace_id}, root_cause_span_ids: {root_cause_span_ids}")
             all_root_cause_span_ids.extend(root_cause_span_ids)
-        
+
         return all_root_cause_span_ids
 
     def process_one_trace_log(self, trace_log: list) -> list[str]:
@@ -110,9 +108,9 @@ class FindRootCauseSpans:
             span_id = span["spanId"]
             parent_span_id = span["parentSpanId"]
             status = int(span["statusCode"])
-            
+
             span_status[span_id] = status
-            
+
             if parent_span_id:
                 parent_spans[span_id] = parent_span_id
                 if parent_span_id not in child_spans:
@@ -145,14 +143,14 @@ def test(project_name: str, logstore_name: str, region: str, start_time: str, en
     # --- 在 test 函数内部，我们需要创建 client ---
     # 这里为了简单，我们还是用AK创建，演示如何调用修改后的类
     # 在你的主脚本里，这里会替换成STS的逻辑
-    
+
     access_key_id = os.getenv('ALIBABA_CLOUD_ACCESS_KEY_ID')
     access_key_secret = os.getenv('ALIBABA_CLOUD_ACCESS_KEY_SECRET')
     if not access_key_id or not access_key_secret:
         raise ValueError("请设置环境变量 ALIBABA_CLOUD_ACCESS_KEY_ID 和 ALIBABA_CLOUD_ACCESS_KEY_SECRET")
-        
+
     client = LogClient(endpoint=f"{region}.log.aliyuncs.com", accessKeyId=access_key_id, accessKey=access_key_secret)
-    
+
     # 将创建好的 client 传进去
     find_root_cause_spans = FindRootCauseSpans(client, project_name, logstore_name, region, start_time, end_time)
     print(find_root_cause_spans.root_cause_spans_query())
