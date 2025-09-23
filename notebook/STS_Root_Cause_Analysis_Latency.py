@@ -76,18 +76,21 @@ def analyze_latency_root_cause(anomaly_start_time: str, anomaly_end_time: str, c
             response_data = json.loads(response)
             credentials = response_data['Credentials']
             return (credentials['AccessKeyId'], credentials['AccessKeySecret'], credentials['SecurityToken'])
-        except Exception:
+        except Exception as e:
+            print(f"❌ 获取STS凭证失败: {e}")
             return None, None, None
 
     temp_access_key_id, temp_access_key_secret, security_token = get_sts_credentials()
     if not temp_access_key_id:
+        print("❌ 无法获取STS临时凭证，分析终止")
         return []
 
     try:
         from aliyun.log import LogClient
         sls_endpoint = f"{REGION}.log.aliyuncs.com"
         log_client = LogClient(sls_endpoint, temp_access_key_id, temp_access_key_secret, security_token)
-    except Exception:
+    except Exception as e:
+        print(f"❌ 创建SLS客户端失败: {e}")
         return []
 
     try:
@@ -99,14 +102,17 @@ def analyze_latency_root_cause(anomaly_start_time: str, anomaly_end_time: str, c
             normal_start_time=NORMAL_START_TIME, normal_end_time=NORMAL_END_TIME,
             minus_average=True, only_top1_per_trace=False
         )
-    except Exception:
+    except Exception as e:
+        print(f"❌ 创建FindRootCauseSpansRT实例失败: {e}")
         return []
 
     try:
         top_95_percent_spans = finder.find_top_95_percent_spans()
         if not top_95_percent_spans:
+            print("❌ 未找到高独占时间的span，无法进行模式分析")
             return []
-    except Exception:
+    except Exception as e:
+        print(f"❌ 查找高独占时间span失败: {e}")
         return []
 
     if top_95_percent_spans:
@@ -179,7 +185,8 @@ select * from t3
                                         elif 'spanName' in pattern:
                                             span_name = pattern.split('=')[1].strip('\'"') if '=' in pattern else pattern
                                             span_patterns.append((span_name, count))
-                        except Exception:
+                        except Exception as e:
+                            print(f"⚠️ 解析模式结果失败: {e}")
                             pass
 
                 if not service_patterns and span_patterns:
@@ -227,11 +234,13 @@ select * from t3
                     all_service_matches.sort(key=lambda x: x[1], reverse=True)
                     globals()['CANDIDATE_SERVICES_BY_FREQUENCY'] = all_service_matches
 
-        except Exception:
+        except Exception as e:
+            print(f"⚠️ diff_patterns查询执行失败: {e}")
             pass
 
     if 'CANDIDATE_SERVICES_BY_FREQUENCY' in globals():
         pattern_services = globals()['CANDIDATE_SERVICES_BY_FREQUENCY']
+        print(f"🔍 模式分析识别的服务: {[s[0] for s in pattern_services]}")
         for service_name, pattern_count in pattern_services:
             possible_candidates = [
                 f"{service_name}.cpu",
@@ -247,7 +256,11 @@ select * from t3
             ]
             for candidate in possible_candidates:
                 if candidate in candidate_root_causes:
+                    print(f"✅ 模式匹配成功: {candidate}")
                     return [candidate]
+        print("⚠️ 模式分析的服务未匹配到任何候选根因")
+    else:
+        print("⚠️ 未识别到服务模式，尝试基于候选根因进行匹配")
 
     for candidate in candidate_root_causes:
         if '.' in candidate and (candidate.endswith('.cpu') or candidate.endswith('.memory')):
@@ -255,6 +268,8 @@ select * from t3
             possible_candidates = [f"{service_name}.cpu", f"{service_name}.memory", service_name]
             for possible in possible_candidates:
                 if possible in candidate_root_causes:
+                    print(f"✅ 基于候选根因匹配成功: {possible}")
                     return [possible]
     
-    return [candidate_root_causes[0]] if candidate_root_causes else []
+    print("❌ 未找到匹配的根因")
+    return []
