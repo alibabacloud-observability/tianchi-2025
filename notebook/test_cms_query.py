@@ -33,7 +33,7 @@ class TestCMSQuery(unittest.TestCase):
 
         # CMS相关配置
         self.workspace = "quanxi-tianchi-test"
-        self.endpoint = 'metrics.cn-qingdao.aliyuncs.com'
+        self.endpoint = 'cms.cn-qingdao.aliyuncs.com'
 
         if not self.account_a_access_key_id or not self.account_a_access_key_secret:
             self.skipTest("缺少账号A的访问凭据环境变量 (ALIBABA_CLOUD_ACCESS_KEY_ID/SECRET)")
