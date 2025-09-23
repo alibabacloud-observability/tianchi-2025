@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Root Cause Analysis Runner Script
 # This script installs dependencies and runs the complete analysis
