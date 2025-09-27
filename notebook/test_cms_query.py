@@ -1,7 +1,7 @@
 """
 测试 CMS 查询功能
 
-去tianchi-2025-v2的workspace里面执行下面的SPL:
+去quanxi-tianchi-test的workspace里面执行下面的SPL:
 .entity_set with(domain='k8s', name='k8s.deployment', query=`name='recommendation'` )
 | entity-call get_metric('k8s', 'k8s.metric.high_level_metric_deployment', 'deployment_cpu_usage_vs_limits', 'range', '1m')
 """
