@@ -15,7 +15,10 @@ Place your input data in `dataset/input.jsonl` following the required format.
 ```bash
 export ALIBABA_CLOUD_ACCESS_KEY_ID="your-access-key-id"
 export ALIBABA_CLOUD_ACCESS_KEY_SECRET="your-access-key-secret"
+# If you registered _before_ Mon 22 Sep 2025:
 export ALIBABA_CLOUD_ROLE_ARN="acs:ram::1672753017899339:role/tianchi-user-a"
+# If you registered _after_  Mon 22 Sep 2025:
+# export ALIBABA_CLOUD_ROLE_ARN="acs:ram::1672753017899339:role/tianchi-user-1"
 export ALIBABA_CLOUD_ROLE_SESSION_NAME="my-sls-access"
 ```
 
@@ -24,6 +27,8 @@ export ALIBABA_CLOUD_ROLE_SESSION_NAME="my-sls-access"
 Execute the analysis script:
 
 ```bash
+# For test suite B, update `dataset/input.jsonl`, and uncomment the following line:
+# perl -i -pe 's/quanxi-tianchi-test/tianchi-workspace/g' notebook/test_cms_query.py
 ./run_analysis.sh
 ```
 
