@@ -6,6 +6,12 @@ numpy>=1.21.0
 # Aliyun SLS SDK
 aliyun-log-python-sdk>=0.7.0
 
+# Aliyun sdk core
+aliyun-python-sdk-core>=2.16.0
+
+# Aliyun sdk sts
+aliyun-python-sdk-sts>=3.1.3
+
 # Aliyun CMS SDK
 alibabacloud-cms20240330>=1.0.0
 alibabacloud-tea-openapi>=0.3.0
