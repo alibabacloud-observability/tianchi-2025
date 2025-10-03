@@ -1,0 +1,79 @@
+[project]
+name = "agent-example"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11, <3.13"
+dependencies = [
+    "aliyun-instrumentation-dashscope",
+    "aliyun-instrumentation-dify",
+    "aliyun-instrumentation-langchain",
+    "aliyun-instrumentation-llama-index",
+    "aliyun-instrumentation-mcp",
+    "aliyun-instrumentation-openai",
+    "aliyun-instrumentation-sglang",
+    "aliyun-instrumentation-vllm",
+    "aliyun-opentelemetry-exporter-otlp-proto-common",
+    "aliyun-opentelemetry-exporter-otlp-proto-http",
+    "aliyun-opentelemetry-instrumentation",
+    "aliyun-opentelemetry-instrumentation-aiohttp-client",
+    "aliyun-opentelemetry-instrumentation-asgi",
+    "aliyun-opentelemetry-instrumentation-django",
+    "aliyun-opentelemetry-instrumentation-fastapi",
+    "aliyun-opentelemetry-instrumentation-flask",
+    "aliyun-opentelemetry-instrumentation-httpx",
+    "aliyun-opentelemetry-instrumentation-logging",
+    "aliyun-opentelemetry-instrumentation-redis",
+    "aliyun-opentelemetry-instrumentation-requests",
+    "aliyun-opentelemetry-instrumentation-sqlalchemy",
+    "aliyun-opentelemetry-instrumentation-wsgi",
+    "aliyun-opentelemetry-proto",
+    "aliyun-opentelemetry-sdk",
+    "aliyun-opentelemetry-semantic-conventions",
+    "aliyun-opentelemetry-util-http",
+    "aliyun-sdk-extension-arms",
+    "aliyun-semantic-conventions",
+    "langchain-mcp-adapters>=0.1.9",
+    "langchain[openai]<=0.3.27",
+    "langgraph>=0.6.7",
+    "langmem>=0.0.29",
+    "mcp-server-aliyun-observability>=1.0.0a3",
+    "openai<=1.84.0",
+    "opentelemetry-api<=1.35.0",
+    "opentelemetry-instrumentation-extension-alibaba",
+    "pip>=25.2",
+]
+[[tool.uv.index]]
+url = "https://mirrors.aliyun.com/pypi/simple/"
+default = true
+
+[tool.uv.sources]
+aliyun-instrumentation-dashscope = { path = "aliyun-python-agent/aliyun_instrumentation_dashscope-1.0.0-py3-none-any.whl" }
+aliyun-instrumentation-dify = { path = "aliyun-python-agent/aliyun_instrumentation_dify-1.1.0-py3-none-any.whl" }
+aliyun-instrumentation-langchain = { path = "aliyun-python-agent/aliyun_instrumentation_langchain-1.1.0-py3-none-any.whl" }
+aliyun-instrumentation-llama-index = { path = "aliyun-python-agent/aliyun_instrumentation_llama_index-1.0.3.dev0-py3-none-any.whl" }
+aliyun-instrumentation-mcp = { path = "aliyun-python-agent/aliyun_instrumentation_mcp-1.0.0-py3-none-any.whl" }
+aliyun-instrumentation-openai = { path = "aliyun-python-agent/aliyun_instrumentation_openai-1.0.1-py3-none-any.whl" }
+aliyun-instrumentation-sglang = { path = "aliyun-python-agent/aliyun_instrumentation_sglang-0.1.0-py3-none-any.whl" }
+aliyun-instrumentation-vllm = { path = "aliyun-python-agent/aliyun_instrumentation_vllm-0.1.0-py3-none-any.whl" }
+aliyun-opentelemetry-exporter-otlp-proto-common = { path = "aliyun-python-agent/aliyun_opentelemetry_exporter_otlp_proto_common-1.25.0-py3-none-any.whl" }
+aliyun-opentelemetry-exporter-otlp-proto-http = { path = "aliyun-python-agent/aliyun_opentelemetry_exporter_otlp_proto_http-1.25.0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation-aiohttp-client = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation_aiohttp_client-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation-asgi = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation_asgi-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation-django = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation_django-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation-fastapi = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation_fastapi-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation-flask = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation_flask-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation-httpx = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation_httpx-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation-logging = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation_logging-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation-redis = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation_redis-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation-requests = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation_requests-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation-sqlalchemy = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation_sqlalchemy-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation-wsgi = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation_wsgi-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-instrumentation = { path = "aliyun-python-agent/aliyun_opentelemetry_instrumentation-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-proto = { path = "aliyun-python-agent/aliyun_opentelemetry_proto-1.25.0-py3-none-any.whl" }
+aliyun-opentelemetry-sdk = { path = "aliyun-python-agent/aliyun_opentelemetry_sdk-1.25.0-py3-none-any.whl" }
+aliyun-opentelemetry-semantic-conventions = { path = "aliyun-python-agent/aliyun_opentelemetry_semantic_conventions-0.46b0.dev0-py3-none-any.whl" }
+aliyun-opentelemetry-util-http = { path = "aliyun-python-agent/aliyun_opentelemetry_util_http-0.46b0.dev0-py3-none-any.whl" }
+aliyun-sdk-extension-arms = { path = "aliyun-python-agent/aliyun_sdk_extension_arms-1.0.0-py3-none-any.whl" }
+aliyun-semantic-conventions = { path = "aliyun-python-agent/aliyun_semantic_conventions-1.2.0-py3-none-any.whl" }
+opentelemetry-instrumentation-extension-alibaba = { path = "aliyun-python-agent/opentelemetry_instrumentation_extension_alibaba-0.1.0.dev7-py3-none-any.whl" }
